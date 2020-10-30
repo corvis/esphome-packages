@@ -1,0 +1,8 @@
+platform: sntp
+id: time0
+timezone: Europe/Kiev
+#timezone: America/New_York
+servers:
+  - 185.102.185.102
+  - 212.1.104.9
+  - 91.210.190.13

@@ -1,0 +1,18 @@
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    id: ${node_name}_uptime
+    name: ${friendly_node_name} Uptime
+    update_interval: 5min
+    icon: mdi:timer
+  # WiFi Signal sensor.
+  - platform: wifi_signal
+    id: ${node_name}_wifi_signal
+    name: ${friendly_node_name} WiFi Signal
+    update_interval: 5min
+
+binary_sensor:
+  # Connection status.
+  - platform: status
+    id: ${node_name}_connection_status
+    name: ${friendly_node_name} Connection Status

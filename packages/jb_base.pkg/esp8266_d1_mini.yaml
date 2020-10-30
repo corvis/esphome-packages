@@ -1,0 +1,29 @@
+esphome:
+  name: ${node_name}
+  platform: ESP8266
+  board: d1_mini
+  build_path: ./build/${node_name}
+
+# I2C Bus
+i2c:
+  sda: GPIO4
+  scl: GPIO5
+  scan: True
+  frequency: 100kHz
+
+# Enable logging
+logger:
+  level: ${log_level}
+
+# NTP Configuration
+time:
+  - <<: !include ./common/time.config.yaml
+
+# Wi-Fi Configuration
+<<: !include ./common/wifi.inc.yaml
+
+# Enable Over the Air updates
+<<: !include ./common/ota.inc.yaml
+
+# Enable Home Assistant API
+<<: !include common/api.inc.yaml

@@ -1,0 +1,26 @@
+substitutions:
+  node_name: irrigationcontroller1
+  friendly_node_name: Irrigation Controller 1
+  log_level: DEBUG
+
+  prefix_entity_id: "irrigation_ctrl1"
+  prefix_name: "Irrigation Ctrl 1"
+  not_expose_valves: "false"
+  # Zones
+  zone1_id: zone1
+  zone1_name: Zone1
+
+  zone2_id: zone2
+  zone2_name: Zone2
+
+  zone3_id: zone3
+  zone3_name: Zone3
+
+  zone4_id: zone4
+  zone4_name: Zone4
+
+packages:
+  board: !include packages/jb_base.pkg/esp32_d1_mini.yaml
+  default_sensors: !include packages/jb_base.pkg/default_sensors.yaml
+  default_controls: !include packages/jb_base.pkg/default_controls.yaml
+  irrigation: !include packages/jb_irrigation.pkg/main.yaml

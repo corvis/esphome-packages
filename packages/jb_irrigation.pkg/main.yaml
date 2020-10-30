@@ -1,0 +1,182 @@
+esphome:
+  includes:
+    - packages/jb_irrigation.pkg/jb_irrigation.h
+  on_boot:
+    - priority: -100
+      then:
+        - lambda: |-
+            JBHeating::init(30, { ${prefix_entity_id}${zone1_id}_valve,
+                                  ${prefix_entity_id}${zone2_id}_valve,
+                                  ${prefix_entity_id}${zone3_id}_valve,
+                                  ${prefix_entity_id}${zone4_id}_valve
+                                });
+        - if:
+            condition:
+              lambda: 'return JBHeating::isFailureDetected();'
+            then:
+              - logger.log:
+                  format: 'Failure detected. This means that watering cycle was interrupted. Report to HomeAssistant will be submitted'
+                  level: WARN
+                  tag: jb_irrigation
+              - lambda: std::fill_n(id(jb_valves_countdown), 10, 0);
+              - wait_until:
+                  api.connected:
+              - delay: 1sec
+              - homeassistant.event:
+                  event: esphome.irrigation_failure
+                  data:
+                    controller_id: ${node_name}
+            else:
+              - logger.log:
+                  format: 'Failure check: clear'
+                  level: INFO
+                  tag: jb_irrigation
+
+
+# Example configuration entry
+interval:
+  - interval: 30sec
+    then:
+      - lambda: JBHeating::handleCountdown();
+
+globals:
+  - id: jb_valves_countdown
+    type: int[10]
+    restore_value: yes
+    initial_value: '{0,0,0,0,0,0,0,0,0,0}'
+
+api:
+  services:
+    - service: start_irrigation
+      variables:
+        duration: int
+        valve_id: string
+      then:
+        - lambda: JBHeating::startIrrigation(duration, valve_id);
+
+# Switches
+switch:
+  - platform: output
+    internal: "${not_expose_valves}"
+    name: "${prefix_name} ${zone1_name} valve"
+    id: "${prefix_entity_id}${zone1_id}_valve"
+    output: zone1_output
+    icon: mdi:water-pump
+    on_turn_on:
+      - homeassistant.event:
+          event: esphome.irrigation_started
+          data:
+            controller_id: ${node_name}
+            zone_id: ${zone1_id}
+            zone: "${node_name}.${zone1_id}"
+            valve: "${node_name}.${zone1_id}_valve"
+            zone_name: "${zone1_name}"
+    on_turn_off:
+      - homeassistant.event:
+          event: esphome.irrigation_stopped
+          data:
+            controller_id: ${node_name}
+            zone_id: ${zone1_id}
+            zone: "${node_name}.${zone1_id}"
+            valve: "${node_name}.${zone1_id}_valve"
+            zone_name: "${zone1_name}"
+
+  - platform: output
+    internal: "${not_expose_valves}"
+    name: "${prefix_name} ${zone2_name} valve"
+    id: "${prefix_entity_id}${zone2_id}_valve"
+    output: zone1_output
+    icon: mdi:water-pump
+    on_turn_on:
+      - homeassistant.event:
+          event: esphome.irrigation_started
+          data:
+            controller_id: ${node_name}
+            zone_id: ${zone2_id}
+            zone: "${node_name}.${zone2_id}"
+            valve: "${node_name}.${zone2_id}_valve"
+            zone_name: "${zone2_name}"
+    on_turn_off:
+      - homeassistant.event:
+          event: esphome.irrigation_stopped
+          data:
+            controller_id: ${node_name}
+            zone_id: ${zone2_id}
+            zone: "${node_name}.${zone2_id}"
+            valve: "${node_name}.${zone2_id}_valve"
+            zone_name: "${zone2_name}"
+  - platform: output
+    internal: "${not_expose_valves}"
+    name: "${prefix_name} ${zone3_name} valve"
+    id: "${prefix_entity_id}${zone3_id}_valve"
+    output: zone1_output
+    icon: mdi:water-pump
+    on_turn_on:
+      - homeassistant.event:
+          event: esphome.irrigation_started
+          data:
+            controller_id: ${node_name}
+            zone_id: ${zone3_id}
+            zone: "${node_name}.${zone3_id}"
+            valve: "${node_name}.${zone3_id}_valve"
+            zone_name: "${zone3_name}"
+    on_turn_off:
+      - homeassistant.event:
+          event: esphome.irrigation_stopped
+          data:
+            controller_id: ${node_name}
+            zone_id: ${zone3_id}
+            zone: "${node_name}.${zone3_id}"
+            valve: "${node_name}.${zone3_id}_valve"
+            zone_name: "${zone3_name}"
+  - platform: output
+    internal: "${not_expose_valves}"
+    name: "${prefix_name} ${zone4_name} valve"
+    id: "${prefix_entity_id}${zone4_id}_valve"
+    output: zone1_output
+    icon: mdi:water-pump
+    on_turn_on:
+      - homeassistant.event:
+          event: esphome.irrigation_started
+          data:
+            controller_id: ${node_name}
+            zone_id: ${zone4_id}
+            zone: "${node_name}.${zone4_id}"
+            valve: "${node_name}.${zone4_id}_valve"
+            zone_name: "${zone4_name}"
+    on_turn_off:
+      - homeassistant.event:
+          event: esphome.irrigation_stopped
+          data:
+            controller_id: ${node_name}
+            zone_id: ${zone4_id}
+            zone: "${node_name}.${zone4_id}"
+            valve: "${node_name}.${zone4_id}_valve"
+            zone_name: "${zone4_name}"
+
+# Outputs
+output:
+  - platform: gpio
+    id: zone1_output
+    pin:
+      number: GPIO18
+      mode: OUTPUT
+      inverted: false
+  - platform: gpio
+    id: zone2_output
+    pin:
+      number: GPIO19
+      mode: OUTPUT
+      inverted: false
+  - platform: gpio
+    id: zone3_output
+    pin:
+      number: GPIO33
+      mode: OUTPUT
+      inverted: false
+  - platform: gpio
+    id: zone4_output
+    pin:
+      number: GPIO23
+      mode: OUTPUT
+      inverted: false

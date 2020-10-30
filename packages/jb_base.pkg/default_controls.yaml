@@ -1,0 +1,5 @@
+switch:
+  # Restart switch.
+  - platform: restart
+    id: ${node_name}_restart
+    name: ${friendly_node_name} Restart

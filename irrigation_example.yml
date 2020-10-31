@@ -1,11 +1,14 @@
 substitutions:
-  node_name: irrigationcontroller1
-  friendly_node_name: Irrigation Controller 1
+  node_name: switchboard2
+  friendly_node_name: Switchboard dev. 2
   log_level: DEBUG
 
-  prefix_entity_id: "irrigation_ctrl1"
-  prefix_name: "Irrigation Ctrl 1"
+  prefix_entity_id: "irrigation_test"
+  prefix_name: "IrrigationTest"
   not_expose_valves: "false"
+  # 2 hours = 2 * 3600 sec = 7200 sec
+  max_irrigation_duration: '7200'
+
   # Zones
   zone1_id: zone1
   zone1_name: Zone1

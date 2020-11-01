@@ -48,7 +48,7 @@ interval:
 globals:
   - id: jb_valves_countdown
     type: int[10]
-    restore_value: yes
+    restore_value: no
     initial_value: '{0,0,0,0,0,0,0,0,0,0}'
 
 api:
@@ -70,7 +70,7 @@ switch:
       number: GPIO19
       mode: OUTPUT
       inverted: false
-    restore_mode: ALWAYS_OFF
+    restore_mode: RESTORE_DEFAULT_OFF
     icon: mdi:water-pump
     on_turn_on:
       - homeassistant.event:
@@ -112,7 +112,7 @@ switch:
       number: GPIO19
       mode: OUTPUT
       inverted: false
-    restore_mode: ALWAYS_OFF
+    restore_mode: RESTORE_DEFAULT_OFF
     icon: mdi:water-pump
     on_turn_on:
       - homeassistant.event:
@@ -153,7 +153,7 @@ switch:
       number: GPIO33
       mode: OUTPUT
       inverted: false
-    restore_mode: ALWAYS_OFF
+    restore_mode: RESTORE_DEFAULT_OFF
     icon: mdi:water-pump
     on_turn_on:
       - homeassistant.event:
@@ -194,7 +194,7 @@ switch:
       number: GPIO23
       mode: OUTPUT
       inverted: false
-    restore_mode: ALWAYS_OFF
+    restore_mode: RESTORE_DEFAULT_OFF
     icon: mdi:water-pump
     on_turn_on:
       - homeassistant.event:

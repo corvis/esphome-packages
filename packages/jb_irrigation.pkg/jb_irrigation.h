@@ -16,8 +16,15 @@ namespace JBHeating {
     }
 
     bool isFailureDetected() {
-        for (int i = 0; i < stateSize; i++) if (id(jb_valves_countdown)[i] != 0) return true;
-        return false;
+        bool result = false;
+        for (int i = 0; i < valvesSize; i++) {
+            if (id(valves[i]).state) {
+                result = true;
+                id(valves[i]).turn_off();
+            }
+
+        }
+        return result;
     }
 
     int valveIndexByName(std::string valve_id) {

@@ -3,10 +3,10 @@ A collection of reusable esphome packages
 
 ## Package: JB Irrigation
 
-**Required hardware**: JointBox Heating controller
+**Required hardware**: [JointBox Heating controller](https://easyeda.com/jointbox/jb-heating-controller_copy)
 **Example config**: [irrigation_example.yml](irrigation_example.yml)
 
-Turns JointBox Heating Controller into irrigation controller. 
+Turns [JointBox Heating Controller](https://easyeda.com/jointbox/jb-heating-controller_copy) into irrigation controller. 
 
 ### Features
 

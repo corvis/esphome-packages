@@ -67,7 +67,7 @@ switch:
     name: "${prefix_name} ${zone1_name} valve"
     id: "${prefix_entity_id}${zone1_id}_valve"
     pin:
-      number: GPIO19
+      number: GPIO18
       mode: OUTPUT
       inverted: false
     restore_mode: RESTORE_DEFAULT_OFF
